@@ -16,13 +16,7 @@ function Home() {
         >
           Get Started
         </Link>
-        <a
-          className="text-sm font-semibold underline"
-          href="https://github.com/m4xshen/fastodo"
-        >
-          View on GitHub{" "}
-          <i className="fa-solid fa-arrow-up-right-from-square"></i>
-        </a>
+
       </div>
       <img
         className="w-10/12 mx-auto rounded-xl mb-14 drop-shadow-md"
@@ -111,24 +105,11 @@ function Home() {
         >
           Get Started
         </Link>
-        <a
-          className="text-sm font-semibold underline"
-          href="https://github.com/m4xshen/fastodo"
-        >
-          View on GitHub{" "}
-          <i className="fa-solid fa-arrow-up-right-from-square"></i>
-        </a>
       </div>
 
       <footer className="py-8 bg-[#252525] text-white">
         <div className="text-center">
-          <a
-            href="https://github.com/m4xshen/fastodo"
-            className="fa-brands fa-github"
-          />
-          <br />
-          <br />
-          Made by Max Shen
+          Made by Kunaal,Steve,Shivam,Ken
         </div>
       </footer>
     </div>

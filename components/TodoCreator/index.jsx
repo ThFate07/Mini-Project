@@ -44,8 +44,8 @@ function TodoCreator(props) {
         return todoList;
       })
       props.setTodoLists(newTodoLists);
-
       setTodo(initTodo);
+      props.setCreatorState('hidden');
     } else if (props.creatorState === 'edit') {
       const newTodoLists = props.todoLists.map(todoList => {
         if (todoList.id === props.activeListId) {

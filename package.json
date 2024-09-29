@@ -2,7 +2,6 @@
   "name": "productivity-hub",
   "private": true,
   "version": "0.0.0",
-  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -10,7 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "framer-motion": "^10.8.5",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.9.0",
     "nanoid": "^4.0.1",
     "next": "^13.5.3",
     "react": "^18.2.0",

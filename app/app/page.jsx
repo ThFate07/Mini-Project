@@ -36,6 +36,8 @@ function App() {
     if (localStorage) {
       setTodoLists(JSON.parse(localStorage.getItem('todoLists')));
     }
+
+    console.log(JSON.parse(localStorage.getItem('todoLists')))
   }, []);
 
   useEffect(() => {

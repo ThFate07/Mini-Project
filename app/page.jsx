@@ -4,7 +4,7 @@ function Home() {
   return (
     <div className="bg-amber-50">
       <h1 className="text-6xl md:text-7xl lg:text-8xl font-extrabold font-sans text-center pt-16 mb-2">
-        Fastodo
+        Personal productivity hub
       </h1>
       <div className="text-lg lg:text-xl font-semibold font-sans text-center mb-10 px-10">
         A fast and flexible web-based todo list app. No account required.
@@ -20,14 +20,14 @@ function Home() {
       </div>
       <img
         className="w-10/12 mx-auto rounded-xl mb-14 drop-shadow-md"
-        alt="screenshot of fastodo web-based todo app"
+        alt="screenshot of Personal productivity hub web-based todo app"
         src="/assets/app.png"
       />
 
       <div className="flex flex-col lg:flex-row items-center lg:items-start justify-center lg:space-x-10 mb-20 ml-5">
         <img
           src="/assets/todo.png"
-          alt="screenshot of fastodo's todo creator"
+          alt="screenshot of Personal productivity hub's todo creator"
           className="max-w-md w-2/3 rounded-lg drop-shadow-md"
         />
         <div>
@@ -53,7 +53,7 @@ function Home() {
         </div>
         <img
           src="/assets/list.png"
-          alt="screenshot of fastodo's multiple list feature"
+          alt="screenshot of Personal productivity hub's multiple list feature"
           className="max-w-[13em] w-2/3 rounded-lg order-first lg:order-last drop-shadow-md"
         />
       </div>
@@ -61,7 +61,7 @@ function Home() {
       <div className="flex flex-col lg:flex-row items-center lg:items-start justify-center lg:space-x-10 mb-20 ml-5">
         <img
           src="/assets/calendar.png"
-          alt="screenshot of fastodo's calendar view feature"
+          alt="screenshot of Personal productivity hub's calendar view feature"
           className="max-w-[17em] w-2/3 rounded-lg drop-shadow-md"
         />
         <div>
@@ -85,7 +85,7 @@ function Home() {
         </div>
         <img
           src="/assets/sort.png"
-          alt="screenshot of fastodo's sorter feature"
+          alt="screenshot of Personal productivity hub's sorter feature"
           className="max-w-[8em] w-2/3 rounded-lg order-first lg:order-last drop-shadow-md"
         />
       </div>

@@ -97,7 +97,7 @@ function LeftContainer(props) {
         + Add Todo List
       </button>
 
-      {/* {!isLoggedIn.logged ? (
+       {!isLoggedIn.logged ? (
         <div className="ml-4 " style={{ marginTop: "40rem" }}>
           <LoginButton></LoginButton>
         </div>
@@ -144,7 +144,7 @@ function LeftContainer(props) {
             </svg>
           </div>
         </div>
-      )} */}
+      )} 
     </div>
   );
 }

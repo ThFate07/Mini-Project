@@ -1,5 +1,6 @@
 import { useRef, useState, useEffect } from 'react';
 import Priority from './Priority'
+import { nanoid } from "nanoid";
 import Title from './Title';
 import DateInput from './Date';
 import Tags from './Tags';
@@ -46,6 +47,21 @@ function TodoCreator(props) {
       props.setTodoLists(newTodoLists);
       setTodo(initTodo);
       props.setCreatorState('hidden');
+
+      todo.id = nanoid();
+      // send req to backend to add todo also include token
+      fetch("http://localhost:3000/api/addTodo", {
+        method: "POST",
+        body: JSON.stringify({todo, token: localStorage.getItem('token')})
+      }).then((response) => response.json()).then(data => { 
+        // if logged in then set token
+        if (data.status == 200) { 
+          console.log(data)
+        } else { 
+          console.log(data.message);
+        }
+      }).catch(err => console.log(err))
+
     } else if (props.creatorState === 'edit') {
       const newTodoLists = props.todoLists.map(todoList => {
         if (todoList.id === props.activeListId) {

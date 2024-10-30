@@ -16,6 +16,9 @@ const Signup = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // use axios to send req to backend 
+
+    console.log(email, username, password);
+    
     fetch("http://localhost:3000/api/signup", {
       method: "POST",
       body: JSON.stringify({email, username, password})

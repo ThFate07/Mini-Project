@@ -33,16 +33,25 @@ function App() {
   const [displayedTodo, setDisplayedTodo] = useState(initTodo);
 
   useEffect(() => {
-    if (localStorage) {
-      setTodoLists(JSON.parse(localStorage.getItem('todoLists')));
-    }
 
-    console.log(JSON.parse(localStorage.getItem('todoLists')))
+    console.log('test sending fetch req')
+    const token = localStorage.getItem('token');
+    if (token) {
+      fetch('http://localhost:3000/api/fetchTodo', {
+        method: 'POST',
+        body: JSON.stringify({ token }),
+      }).then((response) => response.json()).then(data => {
+        console.log("data", data)
+        if (data.status === 200) {
+          setTodoLists(data.todos);
+        } else {
+          console.log(data.message);
+        }
+      });
+    }
   }, []);
 
-  useEffect(() => {
-    localStorage.setItem('todoLists', JSON.stringify(todoLists));
-  }, [todoLists]);
+
 
   function handleKeyDown(e) {
     if (e.key === 'Escape') {

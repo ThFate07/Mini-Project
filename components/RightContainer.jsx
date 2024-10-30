@@ -1,7 +1,10 @@
 import Calendar from "./Calendar";
+import { AuthContext } from "../lib/AuthContext.js";
+import { useContext } from "react";
 
 function RightContainer(props) {
   const today = new Date();
+  const isLoggedIn = useContext(AuthContext);
   today.setHours(0, 0, 0, 0);
 
   return (
@@ -29,6 +32,19 @@ function RightContainer(props) {
         >
           Clear Filter
         </button>
+      </div>
+
+      <div>
+        {/* // add a button to log out  */}
+        { isLoggedIn ? <button
+          className="text-white bg-red-600 hover:bg-red-500 transition rounded-md p-1"
+          onClick={() => {
+            localStorage.removeItem('token');
+            window.location.reload();
+          }} 
+        >
+          Log Out
+        </button> : null }
       </div>
     </div>
   );

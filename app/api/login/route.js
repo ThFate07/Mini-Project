@@ -28,8 +28,9 @@ export async function POST(req, res) {
     return NextResponse.json({ status: 401, message: "Invalid email or password" });
   }
 
+  console.log(user)
   // For example, you can use a library like jsonwebtoken to generate a token
-  const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+  const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
   // You can then send the token as a response
   return NextResponse.json({ status: 200, message: "Login successful", token });

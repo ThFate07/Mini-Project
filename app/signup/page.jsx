@@ -4,6 +4,8 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 
 import { redirect } from 'next/dist/server/api-utils';
+import { useRouter } from 'next/navigation';
+import axios from 'axios';
 
 const Signup = () => {
     // add extra fields 
@@ -12,27 +14,20 @@ const Signup = () => {
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
   const [error ,setError] = useState('');
+  const router = useRouter();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // use axios to send req to backend 
-
-    console.log(email, username, password);
     
-    fetch("http://localhost:3000/api/signup", {
-      method: "POST",
-      body: JSON.stringify({email, username, password})
-    }).then((response) => response.json()).then(data => { 
-      // if logged in then set token
-      if (data.status == 200) { 
-        localStorage.setItem("token", data.token);
-        window.location.href = '/app';
-      } else { 
-        setError(data.message);
-      }
-
-
-    }).catch(err => console.log(err))
+    try { 
+      const response = await axios.post('http://localhost:3000/api/signup', {email, username, password});
+      if (response.status === 200) {
+        router.push('/app');
+      } 
+    } catch (err) { 
+      setError(err.response.data.message);
+    }
   };
 
   return (

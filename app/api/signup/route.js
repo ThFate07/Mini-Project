@@ -6,20 +6,20 @@ const jwt = require('jsonwebtoken');
 
 export async function POST(req, res) {
   if (req.method !== 'POST') {
-    return NextResponse.json({ message: 'Method not allowed' });
+    return NextResponse.json({ message: 'Method not allowed' }, {status: 404});
   }
 
   const { email, username, password } = await req.json();
 
   // Validate input
   if (!email || !password || !username) {
-    return NextResponse.json({ status:400 , message: 'Email and password are required' });
+    return NextResponse.json({   message: 'Email and password are required' }, {status:400});
   }
 
   // Check if user already exists
   const existingUser = await getUserByEmail(email);
   if (existingUser) {
-    return NextResponse.json({ status: 409, message: 'User already exists' });
+    return NextResponse.json({ message: 'User already exists' }, {status: 409});
   }
   
   const hashedPassword = await hash(password, 10)
@@ -33,11 +33,21 @@ export async function POST(req, res) {
 
   const userId = await createUser(newUser);
 
-  console.log(userId)
   const token = jwt.sign({ userId }, process.env.JWT_SECRET, { expiresIn: '1h' });
+  const response = NextResponse.json({ message: 'User created', token}, {status: 200});
+
+  const cookieOptions = {
+    httpOnly: false, // Prevents JavaScript access to the cookie
+    secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
+    maxAge: 60 * 60 * 24, // Cookie expiration in seconds (1 day)
+    path: '/', // Cookie path
+  };
+  
+  response.cookies.set('token', token, cookieOptions);
+  response.cookies.set('username', username, cookieOptions);
 
   if (userId) { 
 
-    return NextResponse.json({ message: 'User created', userId , status: 200, token});
+    return response
   }
 }

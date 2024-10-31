@@ -1,11 +1,13 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import TodoCreator from '../../components/TodoCreator/index';
 import LeftContainer from '../../components/LeftContainer';
 import MidContainer from '../../components/MidContainer';
 import RightContainer from '../../components/RightContainer';
 import { nanoid } from 'nanoid';
+import { useRouter } from 'next/navigation';
+import Cookies from 'js-cookie';
 
 const initTodo = {
   name: '',
@@ -31,27 +33,13 @@ function App() {
   const [todoLists, setTodoLists] = useState([initTodoList()]);
   const [activeListId, setActiveListId] = useState(todoLists[0].id);
   const [displayedTodo, setDisplayedTodo] = useState(initTodo);
+  const [username, setUsername] = useState("");
 
-  useEffect(() => {
 
-    console.log('test sending fetch req')
-    const token = localStorage.getItem('token');
-    if (token) {
-      fetch('http://localhost:3000/api/fetchTodo', {
-        method: 'POST',
-        body: JSON.stringify({ token }),
-      }).then((response) => response.json()).then(data => {
-        console.log("data", data)
-        if (data.status === 200) {
-          setTodoLists(data.todos);
-        } else {
-          console.log(data.message);
-        }
-      });
-    }
+  useEffect(() => { 
+    const username = Cookies.get('username');
+    setUsername(username);
   }, []);
-
-
 
   function handleKeyDown(e) {
     if (e.key === 'Escape') {
@@ -77,6 +65,7 @@ function App() {
 
   const leftContainerProps = {
     todoLists,
+    username,
     setTodoLists,
     activeListId,
     setActiveListId,

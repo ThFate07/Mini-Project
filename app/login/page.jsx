@@ -1,31 +1,47 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { use, useContext, useEffect, useState } from 'react';
 import Link from 'next/link';
+import useAxiosFetch from '../hooks/useAxiosFetch';
+import { useRouter } from 'next/navigation';
+import Cookies from 'js-cookie';
+
 
 const Login = () => {
+  const router = useRouter();
+  
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error , setError] = useState('')
+  const [loginError , setLoginError] = useState('')
   const [rememberMe, setRememberMe] = useState(false);
+  const [attemptedLogin, setAttemptedLogin] = useState(false);
 
+  // if user is already logged in redirect to app
+
+
+
+
+  const { data, loading, error, refetch } = useAxiosFetch('http://localhost:3000/api/login', 'POST', { email, password });
+
+
+  useEffect(() => {
+    if (!attemptedLogin) return;
+
+    if (!loading) {
+      if (data) {
+        // save token to cookies
+        router.push('/app');
+      } else if (error) {
+        setLoginError(error.response?.data?.message || 'Login failed');
+      }
+    }
+  }, [loading, data, error]);
+
+  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    // use axios to send req to backend 
-    fetch("http://localhost:3000/api/login", {
-      method: "POST",
-      body: JSON.stringify({email, password})
-    }).then((response) => response.json()).then(data => { 
-      // if logged in then set token
-      if (data.status == 200) { 
-        localStorage.setItem("token", data.token);
-        window.location.href = '/app';
-      } else { 
-        setError(data.message);
-      }
-
-
-    }).catch(err => console.log(err))
+    refetch(); // Trigger the API request
+    setAttemptedLogin(true);
   };
 
   return (
@@ -59,7 +75,7 @@ const Login = () => {
               placeholder="Enter your password"
             />
             <p className="mt-1 text-gray-500" >Already have an account? <Link className='underline text-gray-500' href={'/signup'}>Signup</Link></p>
-            <p className='text-red-500'>{error}</p>
+            <p className='text-red-500'>{loginError}</p>
           </div>
           <div className="flex items-center mb-6">
             <input 

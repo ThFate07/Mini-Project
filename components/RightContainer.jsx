@@ -1,13 +1,14 @@
 import Calendar from "./Calendar";
-import { AuthContext } from "../lib/AuthContext.js";
-import { useContext } from "react";
+import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 
 function RightContainer(props) {
+  const router = useRouter();
   const today = new Date();
-  const isLoggedIn = useContext(AuthContext);
   today.setHours(0, 0, 0, 0);
 
   return (
+    <>
     <div
       className="hidden xl:block fixed right-0 top-0 w-80 h-full bg-neutral-800"
     >
@@ -33,20 +34,23 @@ function RightContainer(props) {
           Clear Filter
         </button>
       </div>
-
       <div>
-        {/* // add a button to log out  */}
-        { isLoggedIn ? <button
-          className="text-white bg-red-600 hover:bg-red-500 transition rounded-md p-1"
+        <button
+          // className="text-white bg-red-600 hover:bg-red-500 transition rounded-md p-1"
+          className="text-black bg-amber-200 hover:brightness-75 rounded-md py-2 px-3 transition-all absolute bottom-11"
+          style={{right: '110px'}}
           onClick={() => {
-            localStorage.removeItem('token');
-            window.location.reload();
+            Cookies.remove('token');
+            Cookies.remove('username');
+            router.push('/login');
           }} 
         >
           Log Out
-        </button> : null }
+        </button>
       </div>
     </div>
+    
+    </>
   );
 }
 

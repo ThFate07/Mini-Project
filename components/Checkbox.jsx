@@ -4,7 +4,7 @@ function Checkbox(props) {
       props.setTodo({...props.todo, priority: props.priority});
     } else { // checkbox in todo list
       const newTodoLists = props.todoLists.map(todoList => {
-        if (todoList.id === props.activeListId) {
+        if (todoList._id === props.activeListId) {
           const newTodoListData = todoList.data.filter(t => t !== props.todo);
           newTodoListData.push({...props.todo, checked: !props.todo.checked});
 

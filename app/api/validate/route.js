@@ -8,11 +8,9 @@ export async function POST(req, res) {
   }
 
   const { token } = await req.json();
-  console.log(token)
   // validate token using jwt
   const {status, message, username} = await validateToken(token);
 
-  console.log(status, message, username)
   
   return NextResponse.json({message, username}, {status});
 }

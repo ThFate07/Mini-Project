@@ -43,7 +43,7 @@ function Calendar(props) {
   }
 
   const activeList = props.todoLists.filter(todoList => (
-    todoList.id === props.activeListId
+    todoList._id === props.activeListId
   ))[0];
 
   const content = (
@@ -100,7 +100,7 @@ function Calendar(props) {
                     className={`transition m-1 w-8 h-8 inline-block rounded-full text-center ${buttonColor}`}
                     onClick={() => {
                       const newTodoLists = props.todoLists.map(todoList => {
-                        if (todoList.id === props.activeListId) {
+                        if (todoList._id === props.activeListId) {
                           return {...todoList, filter:
                             new Date(date.getFullYear(), date.getMonth(), d)};
                         }

@@ -5,6 +5,8 @@ import Title from './Title';
 import DateInput from './Date';
 import Tags from './Tags';
 import Buttons from './Buttons';
+import axios from 'axios';
+import Cookies from 'js-cookie';
 
 const initTodo = {
   name: '',
@@ -26,7 +28,7 @@ function TodoCreator(props) {
     nameRef.current.focus();
   }, []);
 
-  function handleSubmit() {
+  async function handleSubmit() {
     if (todo.name == '') return;
 
     // reset
@@ -39,32 +41,25 @@ function TodoCreator(props) {
 
     if (props.creatorState === 'add') {
       const newTodoLists = props.todoLists.map(todoList => {
-        if (todoList.id === props.activeListId) {
+        if (todoList._id === props.activeListId) {
           return {...todoList, data: [todo, ...todoList.data]};
         }
         return todoList;
       })
+
+      try { 
+        await axios.post('http://localhost:3000/api/addTodo', { token: Cookies.get('token'), todo: todo, _id:  props.activeListId })        
+      } catch (error) {
+        alert(error);
+      }
+
       props.setTodoLists(newTodoLists);
       setTodo(initTodo);
       props.setCreatorState('hidden');
 
-      todo.id = nanoid();
-      // send req to backend to add todo also include token
-      fetch("http://localhost:3000/api/addTodo", {
-        method: "POST",
-        body: JSON.stringify({todo, token: localStorage.getItem('token')})
-      }).then((response) => response.json()).then(data => { 
-        // if logged in then set token
-        if (data.status == 200) { 
-          console.log(data)
-        } else { 
-          console.log(data.message);
-        }
-      }).catch(err => console.log(err))
-
     } else if (props.creatorState === 'edit') {
       const newTodoLists = props.todoLists.map(todoList => {
-        if (todoList.id === props.activeListId) {
+        if (todoList._id === props.activeListId) {
           const newTodoListData = todoList.data.map(t=> {
             if (t === props.displayedTodo) {
               return todo;

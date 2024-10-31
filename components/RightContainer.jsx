@@ -23,7 +23,7 @@ function RightContainer(props) {
           className="text-white bg-neutral-700 hover:bg-neutral-600 transition rounded-md p-1"
           onClick={() => {
             const newTodoLists = props.todoLists.map(todoList => {
-              if (todoList.id == props.activeListId) {
+              if (todoList._id == props.activeListId) {
                 return {...todoList, filter: null};
               }
               return todoList;

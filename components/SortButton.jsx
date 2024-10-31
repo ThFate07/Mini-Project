@@ -5,7 +5,7 @@ function SortButton(props) {
       text-left cursor-pointer transition-all"
       onClick={() => {
         const newTodoLists = props.todoLists.map(todoList => {
-          if (todoList.id === props.activeListId) {
+          if (todoList._id === props.activeListId) {
             return {...todoList, sort: props.value};
           }
           return todoList;

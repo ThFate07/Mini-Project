@@ -41,7 +41,8 @@ function sortWithPriority(a, b) {
 }
 
 function TodoList(props) {
-  const todoList = props.todoLists.filter(todoList => todoList.id === props.activeListId)[0] || props.todoLists[0];
+  const todoList = props.todoLists.filter(todoList => todoList._id === props.activeListId)[0] || props.todoLists[0];
+
 
   let uncheckedTodo = todoList.data.filter(todo => !todo.checked);
   let checkedTodo = todoList.data.filter(todo => todo.checked);

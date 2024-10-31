@@ -8,6 +8,7 @@ import RightContainer from '../../components/RightContainer';
 import { nanoid } from 'nanoid';
 import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
+import axios from 'axios';
 
 const initTodo = {
   name: '',
@@ -37,8 +38,17 @@ function App() {
 
 
   useEffect(() => { 
+    const usefetch = (async () => {
+      const response = await axios.post('http://localhost:3000/api/fetchTodo', { token: Cookies.get('token') });
+
+      setTodoLists(response.data.todos);
+      setActiveListId(response.data.todos[0]._id);
+    });
+
+
     const username = Cookies.get('username');
     setUsername(username);
+    usefetch();
   }, []);
 
   function handleKeyDown(e) {

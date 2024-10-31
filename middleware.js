@@ -22,6 +22,9 @@ export async function middleware(request) {
 
         return NextResponse.next();
     } catch (error) { 
+        if (request.nextUrl.pathname === '/login' || request.nextUrl.pathname === '/signup') {
+            return NextResponse.next();
+        }
         return NextResponse.redirect(new URL('/login', request.url), {status: 302});
     }
 

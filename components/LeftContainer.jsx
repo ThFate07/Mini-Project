@@ -16,6 +16,9 @@ const initTodoList = () => ({
 function LeftContainer(props) {
   const todoListNameRef = useRef(null);
 
+  const handleAddNewList = () => { 
+    props.setTodoLists([...props.todoLists, initTodoList()]);
+  }
   return (
     <div className="fixed left-0 top-0 w-52 h-full bg-neutral-800">
       <div className="mt-2 mb-10 ml-4 flex items-center gap-1">
@@ -32,30 +35,30 @@ function LeftContainer(props) {
               className={`w-44 mx-auto px-2 py-3 rounded-md flex justify-between
                 font-semibold transition cursor-pointer group bg-neutral-800
                 ${
-                  todoList.id === props.activeListId
+                  todoList._id === props.activeListId
                     ? "bg-yellow text-neutral-900"
                     : "text-white"
                 }`}
-              key={todoList.id}
+              key={todoList._id}
               onClick={() => {
-                props.setActiveListId(todoList.id);
+                props.setActiveListId(todoList._id);
               }}
             >
               <input
                 ref={
-                  todoList.id === props.activeListId ? todoListNameRef : null
+                  todoList._id === props.activeListId ? todoListNameRef : null
                 }
                 type="text"
                 defaultValue={todoList.name}
                 className={`w-36 bg-transparent outline-none cursor-pointer focus:cursor-text
                 ${
-                  todoList.id === props.activeListId
+                  todoList._id === props.activeListId
                     ? "pointer-events-auto"
                     : "pointer-events-none"
                 }`}
                 onChange={() => {
                   const newTodoLists = props.todoLists.map((todoList) => {
-                    if (todoList.id === props.activeListId) {
+                    if (todoList._id === props.activeListId) {
                       return {
                         ...todoList,
                         name: todoListNameRef.current.value,
@@ -69,11 +72,11 @@ function LeftContainer(props) {
               />
               <button
                 className={`text-neutral-900 invisible ${
-                  todoList.id === props.activeListId && "group-hover:visible"
+                  todoList._id === props.activeListId && "group-hover:visible"
                 }`}
                 onClick={(e) => {
                   const newTodoLists = props.todoLists.filter(
-                    (todoList) => todoList.id !== props.activeListId
+                    (todoList) => todoList._id !== props.activeListId
                   );
                   props.setActiveListId(newTodoLists[0].id);
                   props.setTodoLists(newTodoLists);
@@ -89,9 +92,7 @@ function LeftContainer(props) {
       </div>
       <button
         className="text-white w-44 px-2 py-3"
-        onClick={() => {
-          props.setTodoLists([...props.todoLists, initTodoList()]);
-        }}
+        onClick={handleAddNewList}
       >
         + Add Todo List
       </button>

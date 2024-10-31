@@ -17,7 +17,7 @@ function Todo(props) {
         text-neutral-800 group-hover:text-neutral-300 transition"
         onClick={(e) => {
           const newTodoLists = props.todoLists.map(todoList => {
-            if (todoList.id === props.activeListId) {
+            if (todoList._id === props.activeListId) {
               const newTodoListData = todoList.data.filter(todo => todo !== props.todo);
               return {...todoList, data: newTodoListData};
             }

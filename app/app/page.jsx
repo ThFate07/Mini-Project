@@ -21,7 +21,7 @@ const initTodo = {
 
 const initTodoList = () => (
   {
-    id: nanoid(),
+    _id: nanoid(),
     name: 'New List',
     data: [],
     sort: null,
@@ -41,6 +41,7 @@ function App() {
     const usefetch = (async () => {
       const response = await axios.post('http://localhost:3000/api/fetchTodo', { token: Cookies.get('token') });
 
+      console.log(response.data)
       setTodoLists(response.data.todos);
       setActiveListId(response.data.todos[0]._id);
     });

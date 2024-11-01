@@ -2,21 +2,31 @@
 const { NextResponse } = require('next/server.js');
 const jwt = require('jsonwebtoken');
 const { fetchUser } = require('../../../lib/user.js');
-const { updateTodoList } = require("../../../lib/user.js");
+const { updateTodoList, deleteTodoList } = require("../../../lib/user.js");
 
 export async function POST(req, res) {
   if (req.method !== 'POST') {
     return NextResponse.json({ message: 'Method not allowed' });
   }
 
-  const {token, name, _id} = await req.json();
+  const body = await req.json();
   // validate token using jwt
   try { 
-    const payload =  jwt.verify(token, process.env.JWT_SECRET);
+    const payload =  jwt.verify(body.token, process.env.JWT_SECRET);
+    if (body.action === 'update' ) { 
+        const todoId = await updateTodoList(body.name, body._id)
+        return NextResponse.json({ message: "Todo list updated", todoId}, {status: 200});
+    } else if (body.action === 'delete') { 
+        const todoId = await deleteTodoList(body._id)
+        if (todoId) { 
 
-    console.log()
-    const todoId = await updateTodoList(name, _id)
-    return NextResponse.json({ message: "Todo list updated", todoId}, {status: 200});
+            return NextResponse.json({ message: "Todo list deleted", todoId}, {status: 200});
+        } else { 
+
+            return NextResponse.json({ message: "Error deleting Todo list", todoId}, {status: 404});
+        }
+    }
+
   } catch(error) { 
     console.log(error)
     return NextResponse.json({message: 'error'}, {status: 404});

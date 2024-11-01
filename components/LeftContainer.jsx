@@ -31,14 +31,26 @@ function LeftContainer(props) {
 
  
 
-  const handleDeletion = (e) => {
-    const newTodoLists = props.todoLists.filter(
-      (todoList) => todoList._id !== props.activeListId
-    );
-    props.setActiveListId(newTodoLists[0].id);
-    props.setTodoLists(newTodoLists);
+  const handleDeletion = async (e) => {
 
-    e.stopPropagation();
+    try { 
+
+      const response = await axios.post("http://localhost:3000/api/updateTodoList", {token: Cookies.get('token'), _id: props.activeListId, action: "delete"});
+
+      console.log(response)
+      const newTodoLists = props.todoLists.filter(
+        (todoList) => todoList._id !== props.activeListId
+      );
+  
+  
+      props.setActiveListId(newTodoLists[0].id);
+      props.setTodoLists(newTodoLists);
+  
+      e.stopPropagation();
+
+    } catch (error) { 
+
+    }
   };
 
   function RenderTodoLists({props}) {
@@ -67,6 +79,7 @@ function LeftContainer(props) {
           name: updatedName,
           _id: props.activeListId,
           token: Cookies.get("token"),
+          action: "update"
         });
 
       } catch (er) { 

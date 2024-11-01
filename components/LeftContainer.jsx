@@ -35,6 +35,11 @@ function LeftContainer(props) {
 
     try { 
 
+      if (props.todoLists.length === 1) { 
+        alert("You must have at least one todo list");
+        return;
+      }
+      
       const response = await axios.post("http://localhost:3000/api/updateTodoList", {token: Cookies.get('token'), _id: props.activeListId, action: "delete"});
 
       console.log(response)

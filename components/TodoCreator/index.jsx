@@ -58,9 +58,10 @@ function TodoCreator(props) {
       props.setCreatorState('hidden');
 
     } else if (props.creatorState === 'edit') {
+      var newTodoListData;
       const newTodoLists = props.todoLists.map(todoList => {
         if (todoList._id === props.activeListId) {
-          const newTodoListData = todoList.data.map(t=> {
+          newTodoListData = todoList.data.map(t=> {
             if (t === props.displayedTodo) {
               return todo;
             }
@@ -70,8 +71,16 @@ function TodoCreator(props) {
         }
         return todoList;
       })
-      props.setTodoLists(newTodoLists);
-      props.setCreatorState('hidden');
+
+      try { 
+        const response = await axios.post('http://localhost:3000/api/updateTodo', { token: Cookies.get('token'), todo: newTodoListData, _id:  props.activeListId })
+        console.log(response);
+        props.setTodoLists(newTodoLists);
+        props.setCreatorState('hidden');
+      } catch (e) { 
+        console.log('error updating');
+      }
+
     }
   }
 

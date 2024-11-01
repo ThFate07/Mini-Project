@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { redirect } from 'next/dist/server/api-utils';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 const Signup = () => {
     // add extra fields 
@@ -16,6 +17,25 @@ const Signup = () => {
   const [error ,setError] = useState('');
   const router = useRouter();
 
+  const initializeTodo = async () => {
+    const initTodoList = {
+      name: "New List",
+      data: [],
+      sort: null,
+      filter: null,
+    };
+
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/api/addTodoList",
+        { initTodoList, token: Cookies.get("token") }
+      );
+      console.log(response);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     // use axios to send req to backend 
@@ -23,6 +43,7 @@ const Signup = () => {
     try { 
       const response = await axios.post('http://localhost:3000/api/signup', {email, username, password});
       if (response.status === 200) {
+~        initializeTodo();
         router.push('/app');
       } 
     } catch (err) { 

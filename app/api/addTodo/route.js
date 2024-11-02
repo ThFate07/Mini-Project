@@ -9,11 +9,10 @@ export async function POST(req, res) {
     return NextResponse.json({ message: 'Method not allowed' });
   }
 
-  const {token, todo, _id} = await req.json();
-  // validate token using jwt
+  const { todo, _id} = await req.json();
+ 
   try { 
-    const payload =  jwt.verify(token, process.env.JWT_SECRET);
-    const todoId = await addTodo(todo, payload.userId, _id)
+    const todoId = await addTodo(todo, req.headers.get('user-id'), _id);
     return NextResponse.json({ message: "Todo added", todoId}, {status: 200});
   } catch(error) { 
     console.log(error)

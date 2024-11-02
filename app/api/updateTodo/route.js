@@ -1,4 +1,3 @@
-
 const { NextResponse } = require('next/server.js');
 const jwt = require('jsonwebtoken');
 const { updateTodo } = require("../../../lib/user.js");
@@ -8,11 +7,9 @@ export async function POST(req, res) {
     return NextResponse.json({ message: 'Method not allowed' });
   }
 
-  const {token, todo, _id, action} = await req.json();
+  const {todo, _id} = await req.json();
   // validate token using jwt
   try { 
-    const payload =  jwt.verify(token, process.env.JWT_SECRET);
-    
     
     const isUpdated = await updateTodo(todo, _id)
     if (isUpdated) { 
